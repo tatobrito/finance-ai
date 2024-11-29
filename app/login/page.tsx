@@ -1,11 +1,20 @@
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
 import { LogInIcon } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-const LoginPage = () => {
+// Tornamos a função assíncrona
+const LoginPage = async () => {
+  const { userId } = await auth(); // Obtém o usuário autenticado
+  if (userId) {
+    redirect("/"); // Redireciona caso o usuário esteja logado
+  }
+
   return (
     <div className="grid grid-cols-2 h-full">
-      {/* Left side */}
+      {/* Lado esquerdo */}
       <div className="flex flex-col justify-center p-8 max-w-[550px] mx-auto">
         <Image
           src="/logo.svg"
@@ -20,12 +29,14 @@ const LoginPage = () => {
           monitorar suas movimentações, e oferecer insights personalizados,
           facilitando o controle do seu orçamento.
         </p>
-        <Button variant="outline">
-          <LogInIcon className="mr-2 h-4 w-4" />
-          Fazer Login ou Criar Conta
-        </Button>
+        <SignInButton>
+          <Button variant="outline">
+            <LogInIcon className="mr-2 h-4 w-4" />
+            Fazer Login ou Criar Conta
+          </Button>
+        </SignInButton>
       </div>
-      {/* Right side */}
+      {/* Lado direito */}
       <div className="relative h-full w-full">
         <Image src="/login.png" alt="login" fill className="object-cover" />
       </div>
