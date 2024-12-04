@@ -1,4 +1,4 @@
-import { db } from "@/lib/prisma";
+import { db } from "@/_lib/prisma";
 
 const TransactionsPage = async () => {
   // acessar as transações do banco
