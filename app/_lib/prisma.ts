@@ -1,8 +1,9 @@
-// src/lib/prisma.ts
+/* eslint-disable no-unused-vars */
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-  let cachedPrisma: PrismaClient;
+  // eslint-disable-next-line no-var
+  var cachedPrisma: PrismaClient;
 }
 
 let prisma: PrismaClient;
