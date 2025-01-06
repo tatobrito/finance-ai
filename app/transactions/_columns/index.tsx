@@ -5,28 +5,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import TransactionsPageBadge from "../_components/type-badge";
 import { Button } from "../../_components/ui/button";
 import { PencilIcon, TrashIcon } from "lucide-react";
-
-export const TRANSACTION_CATEGORY_LABELS = {
-  EDUCATION: "Educação",
-  ENTERTAINMENT: "Lazer",
-  FOOD: "Alimentação",
-  HEALTH: "Saúde",
-  HOUSING: "Casa",
-  INVESTMENT: "Investimento",
-  OTHER: "Outro",
-  TRANSPORTATION: "Transporte",
-  UTILITIES: "Utilidades",
-};
-
-export const TRANSACTION_PAYMENT_METHOD_LABELS = {
-  BANK_SLIP: "Boleto",
-  BANK_TRANSFER: "Transferência",
-  CASH: "Dinheiro",
-  CREDIT_CARD: "Cartão de Crédito",
-  DEBIT_CARD: "Cartão de Débito",
-  PIX: "PIX",
-  OTHER: "Outro",
-};
+import {
+  TRANSACTION_CATEGORY_LABELS,
+  TRANSACTION_PAYMENT_METHOD_LABELS,
+} from "../../_constants/transactions";
 
 export const TransactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -36,40 +18,57 @@ export const TransactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "type",
     header: "Tipo",
-    cell: ({ row: { original: transaction } }) => (
-      <TransactionsPageBadge transaction={transaction} />
-    ),
+    cell: ({ row: { original } }) =>
+      original.type ? (
+        <TransactionsPageBadge transaction={original} />
+      ) : (
+        "Tipo desconhecido"
+      ),
   },
   {
     accessorKey: "category",
     header: "Categoria",
-    cell: ({ row: { original: transaction } }) =>
-      TRANSACTION_CATEGORY_LABELS[transaction.category], // Corrigido: vírgula ao invés de ponto e vírgula
+    cell: ({ row: { original } }) =>
+      TRANSACTION_CATEGORY_LABELS[original.category] ||
+      "Categoria desconhecida",
   },
   {
     accessorKey: "paymentMethod",
     header: "Método de Pagamento",
-    cell: ({ row: { original: transaction } }) =>
-      TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
+    cell: ({ row: { original } }) =>
+      TRANSACTION_PAYMENT_METHOD_LABELS[original.paymentMethod] ||
+      "Método desconhecido",
   },
   {
     accessorKey: "date",
     header: "Data",
-    cell: ({ row: { original: transaction } }) =>
-      new Date(transaction.date).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }),
+    cell: ({ row: { original } }) => {
+      if (!original.date) return "Data inválida";
+      try {
+        return new Date(original.date).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+      } catch {
+        return "Data inválida";
+      }
+    },
   },
   {
     accessorKey: "amount",
     header: "Valor",
-    cell: ({ row: { original: transaction } }) =>
-      new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(Number(transaction.amount)),
+    cell: ({ row: { original } }) => {
+      if (!original.amount) return "Valor inválido";
+      try {
+        return new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(Number(original.amount));
+      } catch {
+        return "Valor inválido";
+      }
+    },
   },
   {
     accessorKey: "actions",
