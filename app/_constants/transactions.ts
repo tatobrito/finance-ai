@@ -37,7 +37,7 @@ export const TRANSACTION_TYPE_OPTIONS = [
   },
   {
     value: TransactionType.INVESTMENT,
-    label: "Transaferência",
+    label: "Investimento",
   },
 ];
 
