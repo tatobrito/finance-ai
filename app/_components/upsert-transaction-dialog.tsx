@@ -85,7 +85,7 @@ const UpsertTransactionDialog = ({
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues ?? {
-      amount: 50,
+      amount: 2,
       category: TransactionCategory.OTHER,
       date: new Date(),
       name: "",
