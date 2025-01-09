@@ -5,6 +5,7 @@ import { TransactionColumns } from "./_columns";
 import Navbar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 const TransactionsPage = async () => {
   const { userId } = await auth();
@@ -19,16 +20,18 @@ const TransactionsPage = async () => {
   return (
     <>
       <Navbar />
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 overflow-hidden">
         {/* Titulo e botão*/}
         <div className="flex w-full justify-between items-center">
           <h1 className="text-2xl font-bold space-y-6">Transações</h1>
           <AddTransactionButton />
         </div>
-        <DataTable
-          columns={TransactionColumns}
-          data={JSON.parse(JSON.stringify(transactions))}
-        />
+        <ScrollArea>
+          <DataTable
+            columns={TransactionColumns}
+            data={JSON.parse(JSON.stringify(transactions))}
+          />
+        </ScrollArea>
       </div>
     </>
   );
