@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { createStripeCheckout } from "../create-stripe-checkout";
+
 const AcquirePlanButton = () => {
   const { user } = useUser();
   const handleAcquirePlanClick = async () => {
