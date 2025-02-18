@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="flex justify-between px-8 py-4 border-b border-solid">
       {/* esquerda */}
       <div className="flex items-center gap-10">
-        <Image src="/logo.svg" width={173} height={39} alt="Finance AI" />
+        <Image src="/logo_terap.svg" width={173} height={39} alt="Finance AI" />
         <Link
           href="/"
           className={
